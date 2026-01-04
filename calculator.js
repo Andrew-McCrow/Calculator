@@ -17,6 +17,25 @@ function divide(a, b) {
     return a / b;
 }
 
-let number
-let number2
-let operator
+let n1 = null;
+let n2 = null;
+let oper = null;
+
+function operate(number, number2, operator) {
+    if (number === null || number2 === null || operator === null) {
+        throw new Error("Incomplete input for calculation.");
+    }
+
+    switch (operator) {
+        case '+':
+            return add(number, number2);
+        case '-':
+            return subtract(number, number2);
+        case '*':
+            return multiply(number, number2);
+        case '/':
+            return divide(number, number2);
+        default:
+            throw new Error("Invalid operator.");
+    }
+}
