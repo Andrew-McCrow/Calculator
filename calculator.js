@@ -39,3 +39,40 @@ function operate(number, number2, operator) {
             throw new Error("Invalid operator.");
     }
 }
+
+// Event listeners for number buttons
+const numbers = document.querySelectorAll('.number');
+numbers.forEach(button => {
+    button.addEventListener('click', () => {
+        const display = document.querySelector('.display');
+        display.querySelector('.value').textContent += button.textContent;
+    });
+});
+
+// Event listener for clear button
+const clearButton = document.querySelector('.clear');
+clearButton.addEventListener('click', () => {
+    const display = document.querySelector('.display');
+    display.querySelector('.value').textContent = '';
+    n1 = null;
+    n2 = null;
+    oper = null;
+});
+
+// Event listeners for operator buttons
+const operators = document.querySelectorAll('.operator');
+operators.forEach(button => {
+    button.addEventListener('click', () => {
+        const display = document.querySelector('.display');
+        const currentValue = parseFloat(display.querySelector('.value').textContent);
+        if (n1 === null) {
+            n1 = currentValue;
+        } else if (oper !== null) {
+            n2 = currentValue;
+            n1 = operate(n1, n2, oper);
+            display.querySelector('.value').textContent = n1;
+        }
+        oper = button.textContent;
+        display.querySelector('.value').textContent = '';
+    });
+});
