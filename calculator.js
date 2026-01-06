@@ -40,15 +40,6 @@ function operate(number, number2, operator) {
     }
 }
 
-// Event listeners for number buttons
-const numbers = document.querySelectorAll('.number');
-numbers.forEach(button => {
-    button.addEventListener('click', () => {
-        const display = document.querySelector('.display');
-        display.querySelector('.value').textContent += button.textContent;
-    });
-});
-
 // Event listener for clear button
 const clearButton = document.querySelector('.clear');
 clearButton.addEventListener('click', () => {
@@ -58,3 +49,36 @@ clearButton.addEventListener('click', () => {
     n2 = null;
     oper = null;
 });
+
+// Event listeners for buttons
+const buttons = document.querySelectorAll('.buttons button:not(.clear):not(.equals)');
+buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const display = document.querySelector('.display');
+        display.querySelector('.value').textContent += btn.textContent.trim();
+    });
+});
+
+// Event listener for equals button
+const equalsButton = document.querySelector('.equals');
+equalsButton.addEventListener('click', () => {
+    const display = document.querySelector('.display');
+    const expression = display.querySelector('.value').textContent;
+
+    // Simple parsing logic (assumes format: number operator number)
+    const match = expression.match(/(\d+)([+\-*/])(\d+)/);
+    if (match) {
+        n1 = parseFloat(match[1]);
+        oper = match[2];
+        n2 = parseFloat(match[3]);
+
+        try {
+            const result = operate(n1, n2, oper);
+            display.querySelector('.value').textContent = result;
+        } catch (error) {
+            display.querySelector('.value').textContent = error.message;
+        }
+    } else {
+        display.querySelector('.value').textContent = "Invalid expression.";
+    }
+});             
